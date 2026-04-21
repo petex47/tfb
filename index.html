@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -467,6 +468,35 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+/* KAIZEN MISSION STATEMENT */
+.kaizen-mission {
+  padding: 22px 20px;
+  margin: 24px 0 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.kaizen-mission .bolt {
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 4px;
+}
+.kaizen-mission .kaizen-word {
+  color: var(--fg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.kaizen-mission .divider {
+  color: var(--dim);
+  margin: 0 6px;
+  font-weight: 400;
 }
 
 /* PHOTO SECTION */
@@ -941,6 +971,10 @@ body {
   <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
 
   <button class="complete-btn" id="completeBtn" onclick="completeDay()" disabled>Complete Day</button>
+
+  <div class="kaizen-mission">
+    <span class="bolt">⚡︎</span><span class="kaizen-word">kaizen:</span> continuous improvement <span class="divider">//</span> training, fueling, and building — one meal, one workout, one rep, one day at a time.
+  </div>
 
   <div class="scratchpad-section">
     <div class="scratchpad-header">
@@ -1705,8 +1739,8 @@ if ('serviceWorker' in navigator) {
 
 <div class="kfk-sticky" id="kfkSticky">
   <div class="kfk-sticky-body" onclick="openKfk()">
-    <div class="kfk-sticky-title">Need fuel for the sprint?</div>
-    <div class="kfk-sticky-sub">Performance meals built for the few.</div>
+    <div class="kfk-sticky-title">Need clean fuel for this training season?</div>
+    <div class="kfk-sticky-sub">Performance meal preps for busy athletes, lifters, and go-getters.</div>
   </div>
   <a href="https://kaizenfuelkitchen.com" target="_blank" rel="noopener" class="kfk-sticky-cta">Order KFK</a>
   <button class="kfk-sticky-close" onclick="dismissKfk()" aria-label="Dismiss">
