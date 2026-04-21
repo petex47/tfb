@@ -210,7 +210,6 @@ body {
   cursor: not-allowed;
 }
 
-.notes-section { margin-bottom: 36px; }
 .section-label {
   font-size: 12px;
   font-weight: 600;
@@ -219,20 +218,6 @@ body {
   text-transform: uppercase;
   margin-bottom: 12px;
 }
-.notes-field {
-  width: 100%;
-  min-height: 100px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--fg);
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 1.5;
-  resize: vertical;
-  padding: 0;
-}
-.notes-field::placeholder { color: var(--dim); }
 
 .grid-section { margin-bottom: 36px; }
 .grid {
@@ -943,14 +928,9 @@ body {
 
   <button class="complete-btn" id="completeBtn" onclick="completeDay()" disabled>Complete Day</button>
 
-  <div class="notes-section">
-    <div class="section-label">Notes</div>
-    <textarea class="notes-field" id="notes" placeholder="How did today go? What did you learn? What did you feel?" oninput="saveNotes()"></textarea>
-  </div>
-
   <div class="scratchpad-section">
     <div class="scratchpad-header">
-      <div class="section-label" style="margin-bottom: 0;">Scratchpad</div>
+      <div class="section-label" style="margin-bottom: 0;">Notes</div>
       <div class="scratchpad-count" id="scratchCount">0 notes</div>
     </div>
     <div class="scratchpad-input-row">
@@ -1004,13 +984,13 @@ body {
 <script>
 const PILLARS = [
   { id: 'train',  label: 'Train',          rule: '30 min minimum. On-plan session.' },
-  { id: 'fuel',   label: 'Fuel',           rule: 'Hit 160g protein. No fast food. Macros logged.' },
+  { id: 'fuel',   label: 'Fuel',           rule: 'Hit protein goal. No fast food. Macros logged.' },
   { id: 'build',  label: 'Build',          rule: '60 min focused KFK or content. Timer on.' },
-  { id: 'read',   label: 'Read or Write',  rule: '10 pages read OR 500 words written.' },
   { id: 'faith',  label: 'Faith',          rule: '15 min prayer or scripture. Phone face-down.' },
+  { id: 'read',   label: 'Read or Write',  rule: '10 pages read OR 500 words written.' },
   { id: 'photo',  label: 'Progress check', rule: 'Daily photo. Weigh-in Mon/Wed/Fri only.' },
-  { id: 'water',  label: 'Water',          rule: '1 gallon. 128 oz.' },
-  { id: 'clean',  label: 'Clean',          rule: 'Zero alcohol. Zero cheat meals.' },
+  { id: 'water',  label: 'Water',          rule: '3L of water (101 oz).' },
+  { id: 'clean',  label: 'Clean',          rule: 'No alcohol. No smoking. No cheat meals.' },
 ];
 
 const TOTAL = 90;
@@ -1123,7 +1103,6 @@ let state = {
   today: {},
   streak: 0,
   history: [],
-  notes: {},
   scratchpad: [],
 };
 PILLARS.forEach(p => state.today[p.id] = false);
@@ -1168,7 +1147,6 @@ function load() {
       const loaded = JSON.parse(raw);
       state = Object.assign(state, loaded);
       if (!state.today) { state.today = {}; PILLARS.forEach(p => state.today[p.id] = false); }
-      if (!state.notes) state.notes = {};
       if (!state.scratchpad) state.scratchpad = [];
     }
   } catch(e) {}
@@ -1230,7 +1208,6 @@ function confirmMissedReset() {
     today: {},
     streak: 0,
     history: [],
-    notes: {},
     scratchpad: preservedScratchpad,
   };
   PILLARS.forEach(p => state.today[p.id] = false);
@@ -1291,10 +1268,6 @@ function render() {
     btn.disabled = true;
     btn.textContent = done + ' of 8 complete';
   }
-
-  const notesEl = document.getElementById('notes');
-  const key = state.currentDayDate || todayStr();
-  notesEl.value = (state.notes && state.notes[key]) || '';
 
   document.getElementById('photoDayNum').textContent = state.currentDay;
   renderPhotoUI();
@@ -1427,13 +1400,6 @@ function closeLightbox() {
 }
 // ========== End photo handling ==========
 
-
-function saveNotes() {
-  const key = state.currentDayDate || todayStr();
-  if (!state.notes) state.notes = {};
-  state.notes[key] = document.getElementById('notes').value;
-  save();
-}
 
 // ========== Scratchpad ==========
 
@@ -1650,7 +1616,6 @@ function doReset() {
     today: {},
     streak: 0,
     history: [],
-    notes: {},
     scratchpad: preservedScratchpad,
   };
   PILLARS.forEach(p => state.today[p.id] = false);
