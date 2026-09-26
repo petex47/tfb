@@ -182,6 +182,19 @@ body {
 }
 .pillar.done .pillar-check svg { display: block; }
 .pillar-check svg { display: none; }
+.pillar-check svg path { stroke: var(--bg); }
+
+.pillar-cam {
+  background: none;
+  border: none;
+  color: var(--fg);
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  align-self: center;
+}
+.pillar-cam svg { width: 24px; height: 24px; display: block; }
+.pillar-cam:active { opacity: 0.5; }
 
 .pillar-body { flex: 1; min-width: 0; padding-top: 2px; }
 .pillar-line {
@@ -1302,6 +1315,11 @@ function render() {
     const div = document.createElement('div');
     div.className = 'pillar' + (state.today[p.id] ? ' done' : '');
     div.onclick = () => togglePillar(p.id);
+    const camBtn = p.id === 'photo'
+      ? `<button class="pillar-cam" onclick="openPhotoPicker(event)" aria-label="Take progress picture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </button>`
+      : '';
     div.innerHTML = `
       <div class="pillar-check">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -1312,6 +1330,7 @@ function render() {
         <div class="pillar-line">${p.label}</div>
         <div class="pillar-rule">${p.rule}</div>
       </div>
+      ${camBtn}
     `;
     list.appendChild(div);
   });
@@ -1380,6 +1399,12 @@ async function renderPhotoUI() {
       <input type="file" id="photoInput" class="photo-file-input" accept="image/*" onchange="handlePhotoUpload(event)">
     `;
   }
+}
+
+function openPhotoPicker(e) {
+  if (e) e.stopPropagation();
+  const inp = document.getElementById('photoInput');
+  if (inp) inp.click();
 }
 
 async function handlePhotoUpload(event) {
